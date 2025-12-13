@@ -4,104 +4,43 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Munay</title>
-
   <meta name="description" content="Munay — palabras para lo que sentís." />
+
+  <!-- Anti-cache (ayuda mucho en navegadores “in-app”) -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
   <style>
     body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:#0b1620;
-      color:#e6edf3;
+      margin:0; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      background:#0b1620; color:#e6edf3;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
-
-    .card{
-      width:min(720px, 92vw);
-      padding:36px 22px 28px;
-      text-align:center;
-      line-height:1.6;
-    }
-
-    .open{
-      font-size:1rem;
-      opacity:.85;
-      margin-bottom:22px;
-    }
-
-    .msg{
-      font-size:1.45rem;
-      font-weight:520;
-      margin:24px 0 26px;
-      white-space:pre-line;
-    }
-
-    .close{
-      font-size:1rem;
-      opacity:.85;
-      margin-top:6px;
-    }
-
-    .logo{
-      margin-top:30px;
-      margin-bottom:10px;
-    }
-
-    .logo img{
-      width:90px;
-      opacity:.85;
-    }
-
-    .sig{
-      font-size:.9rem;
-      opacity:.7;
-      letter-spacing:.5px;
-    }
-
-    button{
-      margin-top:22px;
-      border:0;
-      padding:10px 16px;
-      border-radius:14px;
-      cursor:pointer;
-      background:#122536;
-      color:#e6edf3;
-      font-size:.95rem;
-    }
-
-    button:active{
-      transform:scale(0.98);
-    }
+    .card{ width:min(720px, 92vw); padding:36px 22px 28px; text-align:center; line-height:1.6; }
+    .open{ font-size:1rem; opacity:.85; margin-bottom:22px; }
+    .msg{ font-size:1.45rem; font-weight:520; margin:24px 0 26px; white-space:pre-line; }
+    .close{ font-size:1rem; opacity:.85; margin-top:6px; }
+    .logo{ margin-top:30px; margin-bottom:10px; }
+    .logo img{ width:90px; opacity:.85; }
+    .sig{ font-size:.9rem; opacity:.7; letter-spacing:.5px; }
   </style>
 </head>
 
 <body>
   <main class="card">
-
-    <div class="open">
-      Si llegaste hasta acá, esto es para vos.
-    </div>
+    <div class="open">Si llegaste hasta acá, esto es para vos.</div>
 
     <div id="message" class="msg"></div>
 
-    <div class="close">
-      Está bien sentir lo que sentís.
-    </div>
+    <div class="close">Está bien sentir lo que sentís.</div>
 
     <div class="logo">
       <img src="logo.png" alt="Munay">
     </div>
 
-    <div class="sig">
-      Munay — palabras para lo que sentís.
-    </div>
-
-    <!-- Opcional: eliminar este botón si querés una sola frase por visita -->
-    <button id="another" type="button">Leer otra frase</button>
-
+    <div class="sig">Munay — palabras para lo que sentís.</div>
   </main>
 
   <script>
@@ -132,3 +71,29 @@
       "Que nadie lo haya visto\nno significa que no haya sido real.",
       "Gracias por seguir acá."
     ];
+
+    // Random más robusto (mejor que Math.random en algunos entornos)
+    function randInt(max) {
+      const a = new Uint32Array(1);
+      crypto.getRandomValues(a);
+      return a[0] % max;
+    }
+
+    function pickNonRepeating(arr) {
+      const last = Number(sessionStorage.getItem("munay_last_idx"));
+      let idx = randInt(arr.length);
+
+      // evita repetir la misma frase si vuelve a cargar en la misma “sesión”
+      if (!Number.isNaN(last) && arr.length > 1) {
+        while (idx === last) idx = randInt(arr.length);
+      }
+      sessionStorage.setItem("munay_last_idx", String(idx));
+      return arr[idx];
+    }
+
+    document.getElementById("message").textContent = pickNonRepeating(frases);
+  </script>
+
+  <!-- (Opcional) Analítica ligera: GoatCounter — ver explicación abajo -->
+</body>
+</html>
