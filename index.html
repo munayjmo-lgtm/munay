@@ -6,7 +6,7 @@
   <title>Munay</title>
   <meta name="description" content="Munay — palabras que llegan." />
 
-  <!-- Anti-cache (ayuda mucho en navegadores “in-app”) -->
+  <!-- Anti-cache -->
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -18,9 +18,28 @@
       background:#0b1620; color:#e6edf3;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
-    .card{ width:min(720px, 92vw); padding:36px 22px 28px; text-align:center; line-height:1.6; }
+    .card{
+      width:min(720px, 92vw);
+      padding:36px 22px 28px;
+      text-align:center;
+      line-height:1.6;
+    }
     .open{ font-size:1rem; opacity:.85; margin-bottom:22px; }
-    .msg{ font-size:1.45rem; font-weight:520; margin:24px 0 26px; white-space:pre-line; }
+
+    .msg{
+      font-size:1.45rem;
+      font-weight:520;
+      margin:24px 0 26px;
+      white-space:pre-line;
+      opacity:0;
+      transform: translateY(4px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .msg.show{
+      opacity:1;
+      transform: translateY(0);
+    }
+
     .close{ font-size:1rem; opacity:.85; margin-top:6px; }
     .logo{ margin-top:30px; margin-bottom:10px; }
     .logo img{ width:90px; opacity:.85; }
@@ -34,7 +53,7 @@
 
     <div id="message" class="msg"></div>
 
-    <div class="close">Espero te sirva, gracias por leer.</div>
+    <div class="close">No estás solo en este momento.</div>
 
     <div class="logo">
       <img src="logo.png" alt="Munay">
@@ -45,69 +64,40 @@
 
   <script>
     const frases = [
-      "No estás roto.\nEstás cansado.",
-      "A veces no hace falta entender todo.\nHace falta sentir menos solo.",
-      "No todo lo que duele es debilidad.",
-      "Aunque hoy no lo veas,\ntu existencia importa.",
-      "No estás llegando tarde.\nEstás llegando como podés.",
-      "Hay batallas que nadie ve,\ny aun así las estás peleando.",
-      "Sentir mucho no es un defecto.\nEs una forma de estar vivo.",
-      "No tenés que demostrar nada hoy.",
-      "Está bien si hoy solo podés respirar.",
-      "Incluso en silencio,\ntu presencia deja huella.",
-      "No todo lo que se cae está perdido.",
-      "No sos débil por necesitar descanso.",
-      "A veces seguir acá\nya es un acto de valentía.",
-      "No estás exagerando lo que sentís.",
-      "Aunque nadie lo diga,\nlo que hacés importa.",
-      "No tenés que ser fuerte todo el tiempo.",
-      "Hay días en los que simplemente existir\nya es suficiente.",
-      "No estás solo en esta sensación,\naunque así se sienta.",
-      "No todo tiene que resolverse hoy.",
-      "Sentir no te hace menos.\nTe hace humano.",
-      "Incluso cuando dudás,\nseguís siendo valioso.",
-      "No es un fracaso necesitar ayuda.",
-      "Hay cosas que se sanan\nsolo con tiempo y cuidado.",
-      "Que nadie lo haya visto\nno significa que no haya sido real.",
-      "Gracias por seguir acá.",
-      "Hoy puede ser un buen día, incluso si no es perfecto.",
-      "Hay algo bueno esperándote, aunque todavía no lo veas.",
-      "No subestimes lo lejos que ya llegaste.",
-      "Lo que sos alcanza, incluso en los días simples.",
-      "Tu manera de estar en el mundo tiene valor.",
-      "Algo dentro tuyo sigue intacto. Confiá en eso.",
-      "No todo tiene que salir bien para que el día valga.",
-      "Tu presencia hace la diferencia, más de lo que imaginás.",
-      "Aunque hoy sea pesado, no siempre va a ser así.",
-      "Seguir intentando ya dice mucho de vos.",
-      "Hay pequeños momentos que todavía pueden sorprenderte.",
-      "No perdiste tu brillo, solo estás cansado.",
-      "Hoy también cuenta, aunque no lo sientas especial.",
-      "Estás haciendo lo mejor que podés, y eso importa.",
-      "No todo se nota por fuera, pero algo bueno está creciendo.",
-      "Alguien como vos hace falta en este mundo.",
-      "No sos invisible, aunque a veces se sienta así.",
-      "Hay personas que se sienten mejor solo por conocerte.",
-      "No estás acá por error.",
-      "Tu sensibilidad no es una carga, es un regalo.",
-      "Hay cosas lindas que todavía no llegaron.",
-      "No todo lo valioso hace ruido.",
-      "Tu historia todavía se está escribiendo.",
-      "Hay más futuro del que hoy podés imaginar.",
-      "Lo que das vuelve, aunque no siempre de la forma esperada.",
-      "Si llegaste hasta acá, algo en vos quería seguir.",
-      "No necesitás cambiar para merecer cosas buenas.",
-      "Hay versiones tuyas que todavía no conocés.",
-      "Tu forma de sentir es parte de tu fuerza.",
-      "No todo lo importante se resuelve rápido.",
-      "Hay esperanza incluso en los días comunes.",
-      "Estar acá hoy ya es un logro.",
-      "Algo dentro tuyo sabe cómo seguir.",
-      "No todo está perdido, aunque ahora duela.",
-      "Tu vida vale, incluso en silencio."
+      "A veces el cansancio no es del cuerpo.\nEs de sostener demasiado.\nSi hoy estás más lento,\nno es falla.\nEs desgaste.",
+      "No todo lo que pesa se ve.\nHay cargas silenciosas\nque igual cansan.",
+      "Hay días en los que seguir\nya es un esfuerzo enorme.\nEso también cuenta.",
+      "No siempre necesitás respuestas.\nA veces solo\nun momento sin ruido.",
+      "Si hoy todo te cuesta un poco más,\nno te apures.\nAlgo en vos está pidiendo\notro ritmo.",
+      "No todo lo que sentís\nnecesita nombre.\nAlgunas cosas\nsolo necesitan espacio.",
+      "Hay cansancios que no se duermen.\nSe acompañan.",
+      "No es que no puedas.\nEs que venís pudiendo\nhace mucho.",
+      "Hoy no hace falta entender nada.\nCon estar acá,\nalcanza.",
+      "A veces no falta fuerza.\nFalta pausa.",
+
+      "Quizás hoy sonreíste,\npero por dentro estabas pidiendo una pausa.\nNo es contradicción.\nEs supervivencia.",
+      "Capaz cumpliste con todo,\naunque nadie vio lo que te costó.\nVos sí.",
+      "Tal vez dijiste “todo bien”\nporque no sabías cómo explicar lo otro.\nEso también es cuidarte.",
+      "Hay días en los que funcionás,\npero no habitás.\nY eso también cansa.",
+      "Quizás hoy estuviste para todos,\nmenos para vos.\nSuele pasar.",
+      "Capaz no estás triste.\nCapaz solo estás lleno.",
+      "Seguramente alguien piensa\nque sos fuerte.\nNo siempre saben lo que eso implica.",
+      "Hoy hiciste lo que pudiste\ncon lo que tenías.\nAunque nadie lo note.",
+      "A veces no es falta de ganas.\nEs exceso de exigencia.",
+      "Quizás no querías hablar.\nNo por desinterés,\nsino por agotamiento.",
+
+      "No todo se resuelve hoy.\nNo todo se entiende ahora.\nQuedarte\nya es suficiente.",
+      "No te apures a estar bien.\nEstar acá\ntambién vale.",
+      "Esto no pide fuerza.\nPide presencia.\nAunque sea un poco.",
+      "No hace falta decidir nada hoy.\nRespirar\ntambién es avanzar.",
+      "Algunas cosas no se superan.\nSe aprenden a llevar.\nY eso lleva tiempo.",
+      "No te abandones\npor no poder con todo.",
+      "No todo lo que pesa\ntiene que soltarse hoy.",
+      "Volvé cuando lo necesites.\nEste lugar\nno se mueve.",
+      "Si hoy no podés más,\nno es el final.\nEs una pausa.",
+      "No te vayas de vos\npor cumplir con todo lo demás."
     ];
 
-    // Random más robusto (mejor que Math.random en algunos entornos)
     function randInt(max) {
       const a = new Uint32Array(1);
       crypto.getRandomValues(a);
@@ -117,8 +107,6 @@
     function pickNonRepeating(arr) {
       const last = Number(sessionStorage.getItem("munay_last_idx"));
       let idx = randInt(arr.length);
-
-      // evita repetir la misma frase si vuelve a cargar en la misma “sesión”
       if (!Number.isNaN(last) && arr.length > 1) {
         while (idx === last) idx = randInt(arr.length);
       }
@@ -126,14 +114,16 @@
       return arr[idx];
     }
 
-    document.getElementById("message").textContent = pickNonRepeating(frases);
+    const el = document.getElementById("message");
+    el.textContent = pickNonRepeating(frases);
+
+    // activa el fade apenas entra
+    requestAnimationFrame(() => {
+      el.classList.add("show");
+    });
   </script>
 
-  <!-- (Opcional) Analítica ligera: GoatCounter — ver explicación abajo -->
-    <!-- GoatCounter -->
   <script data-goatcounter="https://munay.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
-
-
