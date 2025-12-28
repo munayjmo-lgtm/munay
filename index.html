@@ -22,7 +22,7 @@
       width:min(720px, 92vw);
       padding:36px 22px 28px;
       text-align:center;
-      line-height:1.6;
+      line-height:1.65;
     }
     .open{ font-size:1rem; opacity:.85; margin-bottom:22px; }
 
@@ -40,7 +40,7 @@
       transform: translateY(0);
     }
 
-    .close{ font-size:1rem; opacity:.85; margin-top:6px; }
+    .close{ font-size:1rem; opacity:.75; margin-top:6px; }
     .logo{ margin-top:30px; margin-bottom:10px; }
     .logo img{ width:90px; opacity:.85; }
     .sig{ font-size:.9rem; opacity:.7; letter-spacing:.5px; }
@@ -59,15 +59,14 @@
       <img src="logo.png" alt="Munay">
     </div>
 
-    <div class="sig">Munay — palabras que llegan.</div>
+    <div class="sig">Palabras que llegan.</div>
     <div class="sig">Santiago del Estero — Argentina.</div>
   </main>
 
   <script>
-    const frases = [
-      /* ─────────────── 30 textos base ─────────────── */
+    /* ─────────────── TEXTOS POR CATEGORÍA ─────────────── */
 
-      // Micro-textos contemplativos
+    const contemplativos = [
       "A veces el cansancio no es del cuerpo.\nEs de sostener demasiado.\nSi hoy estás más lento,\nno es falla.\nEs desgaste.",
       "No todo lo que pesa se ve.\nHay cargas silenciosas\nque igual cansan.",
       "Hay días en los que seguir\nya es un esfuerzo enorme.\nEso también cuenta.",
@@ -77,9 +76,10 @@
       "Hay cansancios que no se duermen.\nSe acompañan.",
       "No es que no puedas.\nEs que venís pudiendo\nhace mucho.",
       "Hoy no hace falta entender nada.\nCon estar acá,\nalcanza.",
-      "A veces no falta fuerza.\nFalta pausa.",
+      "A veces no falta fuerza.\nFalta pausa."
+    ];
 
-      // Textos espejo
+    const espejo = [
       "Quizás hoy sonreíste,\npero por dentro estabas pidiendo una pausa.\nNo es contradicción.\nEs supervivencia.",
       "Capaz cumpliste con todo,\naunque nadie vio lo que te costó.\nVos sí.",
       "Tal vez dijiste “todo bien”\nporque no sabías cómo explicar lo otro.\nEso también es cuidarte.",
@@ -89,9 +89,10 @@
       "Seguramente alguien piensa\nque sos fuerte.\nNo siempre saben lo que eso implica.",
       "Hoy hiciste lo que pudiste\ncon lo que tenías.\nAunque nadie lo note.",
       "A veces no es falta de ganas.\nEs exceso de exigencia.",
-      "Quizás no querías hablar.\nNo por desinterés,\nsino por agotamiento.",
+      "Quizás no querías hablar.\nNo por desinterés,\nsino por agotamiento."
+    ];
 
-      // Textos ancla
+    const ancla = [
       "No todo se resuelve hoy.\nNo todo se entiende ahora.\nQuedarte\nya es suficiente.",
       "No te apures a estar bien.\nEstar acá\ntambién vale.",
       "Esto no pide fuerza.\nPide presencia.\nAunque sea un poco.",
@@ -101,10 +102,10 @@
       "No todo lo que pesa\ntiene que soltarse hoy.",
       "Volvé cuando lo necesites.\nEste lugar\nno se mueve.",
       "Si hoy no podés más,\nno es el final.\nEs una pausa.",
-      "No te vayas de vos\npor cumplir con todo lo demás.",
+      "No te vayas de vos\npor cumplir con todo lo demás."
+    ];
 
-      /* ─────────────── 20 textos de reconocimiento ─────────────── */
-
+    const reconocimiento = [
       "Hoy alguien está un poco mejor\nporque vos estuviste cerca.",
       "Hay personas que respiran distinto\ncuando vos estás alrededor.",
       "Aunque no lo sepas,\ntu presencia alivió a alguien hoy.",
@@ -127,34 +128,41 @@
       "Hoy alguien estuvo mejor\nporque vos estabas ahí."
     ];
 
+    /* ─────────────── UTILIDADES ─────────────── */
+
     function randInt(max) {
       const a = new Uint32Array(1);
       crypto.getRandomValues(a);
       return a[0] % max;
     }
 
-    function pickNonRepeating(arr) {
-      const last = Number(sessionStorage.getItem("munay_last_idx"));
-      let idx = randInt(arr.length);
-      if (!Number.isNaN(last) && arr.length > 1) {
-        while (idx === last) idx = randInt(arr.length);
-      }
-      sessionStorage.setItem("munay_last_idx", String(idx));
-      return arr[idx];
+    function pick(arr) {
+      return arr[randInt(arr.length)];
     }
 
-    const el = document.getElementById("message");
-    el.textContent = pickNonRepeating(frases);
+    function pickByWeight() {
+      const r = randInt(100);
+      if (r < 40) return pick(contemplativos);
+      if (r < 65) return pick(espejo);
+      if (r < 85) return pick(ancla);
+      return pick(reconocimiento);
+    }
 
-    requestAnimationFrame(() => {
+    /* ─────────────── RENDER ─────────────── */
+
+    const el = document.getElementById("message");
+    el.textContent = pickByWeight();
+
+    // micro–pausa intencional antes del fade
+    setTimeout(() => {
       el.classList.add("show");
-    });
+    }, 400);
   </script>
 
-  <!-- Analítica ligera opcional -->
   <script data-goatcounter="https://munay.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
+
 
 
