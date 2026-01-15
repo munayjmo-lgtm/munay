@@ -66,43 +66,43 @@
   <script>
     /* ─────────────── TEXTOS POR CATEGORÍA ─────────────── */
 
-    const contemplativos = [
-      "A veces el cansancio no es del cuerpo.\nEs de sostener demasiado.\nSi hoy estás más lento,\nno es falla.\nEs desgaste.",
-      "No todo lo que pesa se ve.\nHay cargas silenciosas\nque igual cansan.",
-      "Hay días en los que seguir\nya es un esfuerzo enorme.\nEso también cuenta.",
-      "No siempre necesitás respuestas.\nA veces solo\nun momento sin ruido.",
-      "Si hoy todo te cuesta un poco más,\nno te apures.\nAlgo en vos está pidiendo\notro ritmo.",
-      "No todo lo que sentís\nnecesita nombre.\nAlgunas cosas\nsolo necesitan espacio.",
-      "Hay cansancios que no se duermen.\nSe acompañan.",
-      "No es que no puedas.\nEs que venís pudiendo\nhace mucho.",
-      "Hoy no hace falta entender nada.\nCon estar acá,\nalcanza.",
-      "A veces no falta fuerza.\nFalta pausa."
+    const abrazo = [
+      "Está bien estar aqui.\nTal como sos hoy.",
+      "No tenés que demostrar nada.\nYa alcanzás.",
+      "Hay algo en vos\nque merece cuidado.",
+      "Podés aflojar un poco.\nNada malo pasa.",
+      "No llegaste tarde.\nEstás justo a tiempo.",
+      "Respirá.\nEsto también es parte del camino.",
+      "No hace falta hacer más.\nCon estar,\nalcanza.",
+      "Hay lugar para vos.\nAsí como estás.",
+      "No estás solo en esto.\nDe verdad.",
+      "Podés descansar acá.\nUn rato."
     ];
 
-    const espejo = [
-      "Quizás hoy sonreíste,\npero por dentro estabas pidiendo una pausa.\nNo es contradicción.\nEs supervivencia.",
-      "Capaz cumpliste con todo,\naunque nadie vio lo que te costó.\nVos sí.",
-      "Tal vez dijiste “todo bien”\nporque no sabías cómo explicar lo otro.\nEso también es cuidarte.",
-      "Hay días en los que funcionás,\npero no habitás.\nY eso también cansa.",
-      "Quizás hoy estuviste para todos,\nmenos para vos.\nSuele pasar.",
-      "Capaz no estás triste.\nCapaz solo estás lleno.",
-      "Seguramente alguien piensa\nque sos fuerte.\nNo siempre saben lo que eso implica.",
-      "Hoy hiciste lo que pudiste\ncon lo que tenías.\nAunque nadie lo note.",
-      "A veces no es falta de ganas.\nEs exceso de exigencia.",
-      "Quizás no querías hablar.\nNo por desinterés,\nsino por agotamiento."
+    const alivio = [
+      "Algo bueno ya está pasando:\npuesto que estás aqui.",
+      "Tu día no tiene que ser perfecto\npara valer.",
+      "Hay calma posible,\naunque no lo notes todavía.",
+      "Hoy también cuenta.\nAunque haya sido simple.",
+      "Estar vivo\nya es suficiente por hoy.",
+      "No todo pesa siempre.\nEsto también pasa.",
+      "Podés confiar:\nno todo está perdido.",
+      "Incluso así,\nestás bien.",
+      "No hace falta apurarse.\nLa vida te espera.",
+      "Hay más luz de la que parece."
     ];
 
-    const ancla = [
-      "No todo se resuelve hoy.\nNo todo se entiende ahora.\nQuedarte\nya es suficiente.",
-      "No te apures a estar bien.\nEstar acá\ntambién vale.",
-      "Esto no pide fuerza.\nPide presencia.\nAunque sea un poco.",
-      "No hace falta decidir nada hoy.\nRespirar\ntambién es avanzar.",
-      "Algunas cosas no se superan.\nSe aprenden a llevar.\nY eso lleva tiempo.",
-      "No te abandones\npor no poder con todo.",
-      "No todo lo que pesa\ntiene que soltarse hoy.",
-      "Volvé cuando lo necesites.\nEste lugar\nno se mueve.",
-      "Si hoy no podés más,\nno es el final.\nEs una pausa.",
-      "No te vayas de vos\npor cumplir con todo lo demás."
+    const calidez = [
+      "Es lindo que estés aqui.",
+      "Tu presencia suma.\nAunque no lo sepas.",
+      "Hay algo lindo en vos\nque se nota.",
+      "No sos una carga.\nNunca lo fuiste.",
+      "Hacés bien,\naunque no lo notes.",
+      "Alguien se alegra\ncuando aparecés.",
+      "Tu forma de ser\nes suficiente.",
+      "No necesitás cambiar\npara ser querido.",
+      "Estás haciendo lo mejor que podés.\nY eso alcanza.",
+      "Que existas\nya es algo bueno."
     ];
 
     const reconocimiento = [
@@ -118,13 +118,12 @@
       "Hay gestos tuyos\nque alguien guarda en silencio.",
       "No todo impacto se nota.\nEl tuyo llegó igual.",
       "Hoy alguien sonrió un poco más\ngracias a algo tuyo.",
-      "Tu manera de estar\ndejo una marca amable.",
+      "Tu manera de estar\ndejo una marca linda.",
       "Hay personas que se sienten mejor\nsolo con saber que estás.",
       "Sin buscarlo,\nfuiste sostén.",
       "Alguien encontró calma\nen tu presencia.",
       "Hoy fuiste parte de algo bueno,\naunque nadie lo diga.",
       "No todo lo importante se agradece.\nAlgunas cosas simplemente hacen bien.",
-      "Tu lugar en el mundo\nno está vacío para otros.",
       "Hoy alguien estuvo mejor\nporque vos estabas ahí."
     ];
 
@@ -144,43 +143,43 @@
     function getWeightsByHour(hour) {
       // Madrugada (23–05): sostén profundo, casi sin reconocimiento
       if (hour >= 23 || hour <= 5) {
-        return { contemplativos: 30, espejo: 15, ancla: 50, reconocimiento: 5 };
+        return { abrazo: 30, alivio: 15, calidez: 50, reconocimiento: 5 };
       }
 
       // Antes de salir (06–09): pausa + un toque de reconocimiento
       if (hour >= 6 && hour <= 9) {
-        return { contemplativos: 45, espejo: 20, ancla: 20, reconocimiento: 15 };
+        return { abrazo: 45, alivio: 20, calidez: 20, reconocimiento: 15 };
       }
 
       // En movimiento (10–12): espejo sube (lo que se sostiene por dentro)
       if (hour >= 10 && hour <= 12) {
-        return { contemplativos: 30, espejo: 35, ancla: 20, reconocimiento: 15 };
+        return { abrazo: 30, alivio: 35, calidez: 20, reconocimiento: 15 };
       }
 
       // Medio día (13–16): equilibrio (baja la urgencia)
       if (hour >= 13 && hour <= 16) {
-        return { contemplativos: 35, espejo: 25, ancla: 25, reconocimiento: 15 };
+        return { abrazo: 35, alivio: 25, calidez: 25, reconocimiento: 15 };
       }
 
       // Tarde / desgaste (17–19): más ancla y espejo
       if (hour >= 17 && hour <= 19) {
-        return { contemplativos: 25, espejo: 30, ancla: 35, reconocimiento: 10 };
+        return { abrazo: 25, alivio: 30, calidez: 35, reconocimiento: 10 };
       }
 
       // Cierre del día (20–22): ancla fuerte, reconocimiento más bajo
-      return { contemplativos: 25, espejo: 20, ancla: 45, reconocimiento: 10 };
+      return { abrazo: 25, alivio: 20, calidez: 45, reconocimiento: 10 };
     }
 
     function pickByWeights(weights) {
       const r = randInt(100);
 
-      const c = weights.contemplativos;
-      const e = c + weights.espejo;
-      const a = e + weights.ancla;
+      const c = weights.abrazo;
+      const e = c + weights.alivio;
+      const a = e + weights.calidez;
 
-      if (r < c) return pick(contemplativos);
-      if (r < e) return pick(espejo);
-      if (r < a) return pick(ancla);
+      if (r < c) return pick(abrazo);
+      if (r < e) return pick(alivio);
+      if (r < a) return pick(calidez);
       return pick(reconocimiento);
     }
 
