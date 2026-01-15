@@ -13,18 +13,28 @@
 
   <style>
     body{
-      margin:0; min-height:100vh;
-      display:flex; align-items:center; justify-content:center;
-      background:#0b1620; color:#e6edf3;
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#0b1620;
+      color:#e6edf3;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
+
     .card{
       width:min(720px, 92vw);
       padding:36px 22px 28px;
       text-align:center;
       line-height:1.65;
     }
-    .open{ font-size:1rem; opacity:.85; margin-bottom:22px; }
+
+    .open{
+      font-size:1rem;
+      opacity:.85;
+      margin-bottom:22px;
+    }
 
     .msg{
       font-size:1.45rem;
@@ -35,33 +45,58 @@
       transform: translateY(4px);
       transition: opacity .6s ease, transform .6s ease;
     }
+
     .msg.show{
       opacity:1;
       transform: translateY(0);
     }
 
-    .close{ font-size:1rem; opacity:.75; margin-top:6px; }
-    .logo{ margin-top:30px; margin-bottom:10px; }
-    .logo img{ width:90px; opacity:.85; }
-    .sig{ font-size:.9rem; opacity:.7; letter-spacing:.5px; }
-
-    /* ─────────────── FACEBOOK (CONFIG) ─────────────── */
-    .social{
-      margin-top: 22px;
+    .close{
+      font-size:1rem;
+      opacity:.75;
+      margin-top:6px;
     }
+
+    .logo{
+      margin-top:30px;
+      margin-bottom:10px;
+    }
+
+    .logo img{
+      width:90px;
+      opacity:.85;
+    }
+
+    .sig{
+      font-size:.9rem;
+      opacity:.7;
+      letter-spacing:.5px;
+    }
+
+    /* ─────────────── FACEBOOK ─────────────── */
+
+    .social{
+      margin-top:22px;
+    }
+
     .social a{
       display:inline-flex;
       align-items:center;
       justify-content:center;
       text-decoration:none;
     }
-    .social img{
-      width: 26px;
-      opacity: .55;
+
+    .fb-icon{
+      width:26px;
+      height:26px;
+      opacity:.55;
+      fill: currentColor;
+      color:#e6edf3;
       transition: opacity .3s ease, transform .3s ease;
     }
-    .social img:hover{
-      opacity: .9;
+
+    .social a:hover .fb-icon{
+      opacity:.9;
       transform: scale(1.08);
     }
   </style>
@@ -82,17 +117,20 @@
     <div class="sig">Palabras que llegan.</div>
     <div class="sig">Santiago del Estero — Argentina.</div>
 
-    <!-- ─────────────── FACEBOOK (PAGE) ─────────────── -->
+    <!-- FACEBOOK -->
     <div class="social">
-      <a href="https://www.facebook.com/share/1LF7nFriee/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook Munay">
-        <img src="facebook.svg" alt="Facebook">
+      <a href="https://www.facebook.com/share/1LF7nFriee/?mibextid=wwXIfr"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Facebook Munay">
+        <svg class="fb-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-3h2.5V9.5A3.5 3.5 0 0 1 14 6h3v3h-2c-.8 0-1 .4-1 1v2h3l-.5 3H14v7A10 10 0 0 0 22 12z"/>
+        </svg>
       </a>
     </div>
   </main>
 
   <script>
-    /* ─────────────── TEXTOS POR CATEGORÍA ─────────────── */
-
     const abrazo = [
       "Está bien estar aqui.\nTal como sos hoy.",
       "No tenés que demostrar nada.\nYa alcanzás.",
@@ -140,113 +178,48 @@
       "Hoy alguien se sintió acompañado\nsin que hicieras ruido.",
       "A veces no es lo que decís,\nes que estés.",
       "Tu forma de estar\nle hizo bien a alguien.",
-      "Hoy alguien se sintió menos solo\nporque vos existís.",
-      "Sin proponértelo,\nfuiste un lugar seguro.",
-      "Hay gestos tuyos\nque alguien guarda en silencio.",
-      "No todo impacto se nota.\nEl tuyo llegó igual.",
-      "Hoy alguien sonrió un poco más\ngracias a algo tuyo.",
-      "Tu manera de estar\ndejo una marca linda.",
-      "Hay personas que se sienten mejor\nsolo con saber que estás.",
-      "Sin buscarlo,\nfuiste sostén.",
-      "Alguien encontró calma\nen tu presencia.",
-      "Hoy fuiste parte de algo bueno,\naunque nadie lo diga.",
-      "No todo lo importante se agradece.\nAlgunas cosas simplemente hacen bien.",
-      "Hoy alguien estuvo mejor\nporque vos estabas ahí."
+      "Hoy alguien se sintió menos solo\nporque vos existís."
     ];
 
-    /* ─────────────── UTILIDADES ─────────────── */
-
-    function randInt(max) {
+    function randInt(max){
       const a = new Uint32Array(1);
       crypto.getRandomValues(a);
       return a[0] % max;
     }
 
-    function pick(arr) {
+    function pick(arr){
       return arr[randInt(arr.length)];
     }
 
-    // Pesos por tramo emocional (suman 100)
-    function getWeightsByHour(hour) {
-      // Madrugada (23–05): sostén profundo, casi sin reconocimiento
-      if (hour >= 23 || hour <= 5) {
-        return { abrazo: 30, alivio: 15, calidez: 50, reconocimiento: 5 };
-      }
-
-      // Antes de salir (06–09): pausa + un toque de reconocimiento
-      if (hour >= 6 && hour <= 9) {
-        return { abrazo: 45, alivio: 20, calidez: 20, reconocimiento: 15 };
-      }
-
-      // En movimiento (10–12): espejo sube (lo que se sostiene por dentro)
-      if (hour >= 10 && hour <= 12) {
-        return { abrazo: 30, alivio: 35, calidez: 20, reconocimiento: 15 };
-      }
-
-      // Medio día (13–16): equilibrio (baja la urgencia)
-      if (hour >= 13 && hour <= 16) {
-        return { abrazo: 35, alivio: 25, calidez: 25, reconocimiento: 15 };
-      }
-
-      // Tarde / desgaste (17–19): más ancla y espejo
-      if (hour >= 17 && hour <= 19) {
-        return { abrazo: 25, alivio: 30, calidez: 35, reconocimiento: 10 };
-      }
-
-      // Cierre del día (20–22): ancla fuerte, reconocimiento más bajo
-      return { abrazo: 25, alivio: 20, calidez: 45, reconocimiento: 10 };
+    function getWeightsByHour(hour){
+      if (hour >= 23 || hour <= 5) return { abrazo:30, alivio:15, calidez:50, reconocimiento:5 };
+      if (hour >= 6 && hour <= 9)  return { abrazo:45, alivio:20, calidez:20, reconocimiento:15 };
+      if (hour >= 10 && hour <= 12) return { abrazo:30, alivio:35, calidez:20, reconocimiento:15 };
+      if (hour >= 13 && hour <= 16) return { abrazo:35, alivio:25, calidez:25, reconocimiento:15 };
+      if (hour >= 17 && hour <= 19) return { abrazo:25, alivio:30, calidez:35, reconocimiento:10 };
+      return { abrazo:25, alivio:20, calidez:45, reconocimiento:10 };
     }
 
-    function pickByWeights(weights) {
+    function pickByWeights(w){
       const r = randInt(100);
-
-      const c = weights.abrazo;
-      const e = c + weights.alivio;
-      const a = e + weights.calidez;
-
+      const c = w.abrazo;
+      const e = c + w.alivio;
+      const a = e + w.calidez;
       if (r < c) return pick(abrazo);
       if (r < e) return pick(alivio);
       if (r < a) return pick(calidez);
       return pick(reconocimiento);
     }
 
-    // Evita repetir el mismo texto en la misma sesión
-    function pickNonRepeating(pickerFn, maxTries = 10) {
-      const last = sessionStorage.getItem("munay_last_text");
-      let text = pickerFn();
-
-      if (last && last.length) {
-        let tries = 0;
-        while (text === last && tries < maxTries) {
-          text = pickerFn();
-          tries++;
-        }
-      }
-
-      sessionStorage.setItem("munay_last_text", text);
-      return text;
-    }
-
-    /* ─────────────── RENDER ─────────────── */
-
     const el = document.getElementById("message");
-
-    const hour = new Date().getHours(); // hora local del usuario
+    const hour = new Date().getHours();
     const weights = getWeightsByHour(hour);
+    el.textContent = pickByWeights(weights);
 
-    const text = pickNonRepeating(() => pickByWeights(weights));
-    el.textContent = text;
-
-    // micro–pausa intencional antes del fade
-    setTimeout(() => {
-      el.classList.add("show");
-    }, 400);
+    setTimeout(() => el.classList.add("show"), 400);
   </script>
 
-  <!-- Analítica ligera opcional -->
   <script data-goatcounter="https://munay.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
-
-
