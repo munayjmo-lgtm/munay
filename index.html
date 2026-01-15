@@ -44,6 +44,26 @@
     .logo{ margin-top:30px; margin-bottom:10px; }
     .logo img{ width:90px; opacity:.85; }
     .sig{ font-size:.9rem; opacity:.7; letter-spacing:.5px; }
+
+    /* ─────────────── FACEBOOK (CONFIG) ─────────────── */
+    .social{
+      margin-top: 22px;
+    }
+    .social a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+    .social img{
+      width: 26px;
+      opacity: .55;
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .social img:hover{
+      opacity: .9;
+      transform: scale(1.08);
+    }
   </style>
 </head>
 
@@ -61,6 +81,13 @@
 
     <div class="sig">Palabras que llegan.</div>
     <div class="sig">Santiago del Estero — Argentina.</div>
+
+    <!-- ─────────────── FACEBOOK (PAGE) ─────────────── -->
+    <div class="social">
+      <a href="https://www.facebook.com/share/1LF7nFriee/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook Munay">
+        <img src="facebook.svg" alt="Facebook">
+      </a>
+    </div>
   </main>
 
   <script>
@@ -221,4 +248,5 @@
           async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
+
 
